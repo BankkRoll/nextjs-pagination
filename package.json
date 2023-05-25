@@ -1,12 +1,12 @@
 {
   "name": "nextjs-pagination",
-  "version": "1.0.0",
+  "version": "1.7.0",
   "description": "A customizable pagination component for Next.js",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "scripts": {
-    "start": "next start",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "babel src --out-dir dist --extensions \".js,.jsx,.ts,.tsx\"",
+    "prepublishOnly": "npm run build",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -15,7 +15,24 @@
   "keywords": [
     "nextjs",
     "pagination",
-    "react"
+    "react",
+    "component",
+    "UI",
+    "user interface",
+    "navigation",
+    "page control",
+    "front-end",
+    "web development",
+    "TypeScript",
+    "customizable",
+    "interactive",
+    "user-friendly",
+    "page navigation",
+    "data organization",
+    "page splitting",
+    "page rendering",
+    "user experience",
+    "code efficiency"
   ],
   "author": "BankkRoll",
   "license": "MIT",
@@ -25,15 +42,16 @@
   "homepage": "https://github.com/BankkRoll/nextjs-pagination#readme",
   "devDependencies": {
     "@babel/cli": "^7.14.8",
+    "@babel/core": "^7.16.0",
     "@babel/preset-env": "^7.14.9",
     "@babel/preset-react": "^7.14.5",
     "@babel/preset-typescript": "^7.14.5",
-    "@types/react": "^17.0.59",
+    "@types/react": "^18.2.7",
     "typescript": "^4.3.5"
   },
   "peerDependencies": {
-    "next": "^10.2.0",
-    "react": "^17.0.0",
-    "react-dom": "^17.0.0"
+    "next": "^13.4.3",
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0"
   }
 }

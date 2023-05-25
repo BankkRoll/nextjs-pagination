@@ -1,5 +1,4 @@
-// Pagination.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 type PaginationProps = {
   totalItems: number;
@@ -9,8 +8,21 @@ type PaginationProps = {
   buttonCount?: number;
   showNextPrev?: boolean;
   showFirstLast?: boolean;
-  onPageChange?: (page: number) => void;
+  onSuccess?: (page: number) => void;
+  onError?: (error: Error) => void;
+  customStyles?: React.CSSProperties;
 };
+
+const Button: React.FC<{
+  style: React.CSSProperties;
+  onClick: () => void;
+  disabled: boolean;
+  children: React.ReactNode;
+}> = React.memo(({ style, onClick, disabled, children }) => (
+  <button style={style} onClick={onClick} disabled={disabled}>
+    {children}
+  </button>
+));
 
 const Pagination: React.FC<PaginationProps> = ({
   totalItems,
@@ -20,7 +32,9 @@ const Pagination: React.FC<PaginationProps> = ({
   buttonCount = 5,
   showNextPrev = false,
   showFirstLast = false,
-  onPageChange = () => {},
+  onSuccess = () => {},
+  onError = () => {},
+  customStyles = {},
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -51,61 +65,76 @@ const Pagination: React.FC<PaginationProps> = ({
     margin: '0 0.2rem',
     border: 'none',
     cursor: 'pointer',
+    ...customStyles,
   };
 
-  const handlePageChange = (page: number) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-      onPageChange(page);
-    }
-  };
+  const handlePageChange = useCallback(
+    (page: number) => {
+      try {
+        if (page >= 1 && page <= totalPages) {
+          setCurrentPage(page);
+          onSuccess(page);
+        } else {
+          throw new Error('Page number is out of range');
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          onError?.(error);
+        } else {
+          console.error('Caught something that was not an Error', error);
+        }
+      }
+    },
+    [totalPages, onSuccess, onError]
+  );
 
   return (
     <div>
       {showFirstLast && (
-        <button
+        <Button
           style={buttonStyle}
           onClick={() => handlePageChange(1)}
           disabled={currentPage === 1}
         >
           First
-        </button>
+        </Button>
       )}
       {showNextPrev && (
-        <button
+        <Button
           style={buttonStyle}
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
         >
           Prev
-        </button>
+        </Button>
       )}
       {buttonNumbers.map((number) => (
-        <button
+        <Button
           key={number}
           style={buttonStyle}
           onClick={() => handlePageChange(number)}
+          disabled={false}
         >
           {number}
-        </button>
+        </Button>
       ))}
       {showNextPrev && (
-        <button
+        <Button
           style={buttonStyle}
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
         >
           Next
-        </button>
+        </Button>
       )}
       {showFirstLast && (
-        <button
+        <Button
           style={buttonStyle}
           onClick={() => handlePageChange(totalPages)}
           disabled={currentPage === totalPages}
         >
           Last
-        </button>
+        </Button>
       )}
     </div>
   );
