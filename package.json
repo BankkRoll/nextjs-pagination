@@ -1,9 +1,9 @@
 {
   "name": "nextjs-pagination",
-  "version": "1.8.0",
+  "version": "2.3.0",
   "description": "A customizable pagination component for Next.js",
   "main": "dist/index.js",
-  "types": "./types/index.d.ts",
+  "types": "./@types/nextjs-pagination.d.ts",
   "scripts": {
     "build": "babel src --out-dir dist --extensions \".js,.jsx,.ts,.tsx\"",
     "prepublishOnly": "npm run build",

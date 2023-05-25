@@ -1,18 +1,26 @@
 # Nextjs-Pagination
 
-Nextjs-Pagination is a powerful, customizable, and user-friendly pagination component developed specifically for Next.js projects. Engineered with a keen focus on enhancing user experience, it provides comprehensive configuration flexibility allowing you to fine-tune the pagination functionality and aesthetics according to your unique requirements. The component is developed in TypeScript, thereby providing the benefits of type safety and autocompletion support in editors that support these features.
+Nextjs-Pagination is a powerful, customizable, and easy-to-use pagination component built specifically for Next.js projects. Designed with user experience in mind, it provides flexible configuration options so you can adjust the pagination behavior and look-and-feel to suit your needs. Nextjs-Pagination is built with TypeScript, offering type safety and autocompletion support in supported editors.
 
 ## Features
 
-- Customizable button color and shape to match your design requirements.
-- Configuration option to set the maximum number of page buttons to display at a time.
-- Options to show or hide 'Next' and 'Prev' buttons according to your usability needs.
-- Ability to show or hide 'First' and 'Last' buttons.
-- Callback functions that can be hooked to successful and failed page changes, providing flexibility to handle different scenarios.
+- Customizable button color and shape
+- Set maximum number of page buttons to display
+- Option to show or hide 'Next' and 'Prev' buttons
+- Option to show or hide 'First' and 'Last' buttons
+- Callback function for page changes
 
 ## Installation
 
-Install the package using npm by executing the following command in your terminal:
+Install the package using npm:
+
+### TypeScript
+
+```bash
+npm install nextjs-pagination
+```
+
+### JavaScript
 
 ```bash
 npm install nextjs-pagination
@@ -20,71 +28,123 @@ npm install nextjs-pagination
 
 ## Usage
 
-### Importing the Component
+First, import the Pagination component from the `nextjs-pagination` package then use it in your components:
 
-Firstly, you need to import the Pagination component from the `nextjs-pagination` package. The import statement varies based on whether you are using JavaScript or TypeScript:
-
-**JavaScript:**
-
-```jsx
-import Pagination from 'nextjs-pagination';
-```
-
-**TypeScript:**
+### TypeScript
 
 ```tsx
 import { Pagination } from 'nextjs-pagination';
+//...
+<Pagination
+    onPageChange={setCurrentPage}
+    totalItems={100}
+    itemsPerPage={10}
+/>
 ```
 
-### Using the Component
-
-Once the Pagination component is imported, you can use it in your components like this:
+### JavaScript
 
 ```jsx
-<Pagination totalItems={100} itemsPerPage={10} />
+import Pagination from 'nextjs-pagination';
+//...
+<Pagination
+    onPageChange={setCurrentPage}
+    totalItems={100}
+    itemsPerPage={10}
+/>
 ```
 
-The above code snippet will render a pagination component for 100 items with 10 items per page.
+This will render a pagination component for 100 items with 10 items per page.
 
 ## API
 
-Here is a detailed list of props that you can pass to the Pagination component for configuration:
+Below are the props that you can pass to the Pagination component:
 
 Prop | Description | Type | Default | Required
 ---- | ----------- | ---- | ------- | --------
-totalItems | The total number of items that need to be paginated. | number | - | Yes
-itemsPerPage | The number of items to be displayed per page. | number | - | Yes
-color | The color of the buttons. | string | '#007bff' | No
-shape | The shape of the buttons. The options are 'circle' or 'square'. | string | 'square' | No
-buttonCount | The maximum number of page buttons that can be displayed at a time. | number | 5 | No
-showNextPrev | Flag to control the visibility of 'Next' and 'Prev' buttons. | boolean | false | No
-showFirstLast | Flag to control the visibility of 'First' and 'Last' buttons. | boolean | false | No
-onSuccess | Callback function which will be called when a page change occurs successfully. | function | () => {} | No
-onError | Callback function which will be called when a page change error occurs. | function | () => {} | No
+totalItems | Total number of items | number | - | Yes
+itemsPerPage | Number of items per page | number | - | Yes
+onPageChange | Callback function called when page changes | function | () => {} | Yes
+color | Button color | string | '#007bff' | No
+shape | Button shape ('circle' or 'square') | string | 'square' | No
+buttonCount | Maximum number of page buttons | number | 5 | No
+showNextPrev | Whether to show 'Next' and 'Prev' buttons | boolean | false | No
+showFirstLast | Whether to show 'First' and 'Last' buttons | boolean | false | No
+onSuccess | Callback function called when a valid page is selected | function | () => {} | No
+onError | Callback function called when an error occurs | function | () => {} | No
 
-## Example
+## File Structure
 
-Here is an example of how to use the Pagination component with a customized set of props:
+- `@types/`
+  - [`nextjs-pagination.d.ts`](./@types/nextjs-pagination.d.ts) - TypeScript declaration file for the package.
+- `dist/`
+  - [`index.js`](./dist/index.js) - Compiled JavaScript file of the package.
+  - [`Pagination.js`](./dist/Pagination.js) - Compiled JavaScript file of the package.
+- `src/`
+  - [`index.ts`](./src/index.ts) - Entry point file of the package.
+  - [`Pagination.tsx`](./src/Pagination.tsx) - The main implementation of the pagination component.
+- [`.babelrc`](./.babelrc) - Babel configuration file.
+- [`jest.config.js`](./jest.config.js) - Jest configuration file.
+- [`package.json`](./package.json) - Package metadata and dependency information.
+- [`tsconfig.json`](./tsconfig.json) - TypeScript configuration file.
+
+
+## Examples
+
+### TypeScript Example
+
+```tsx
+import { Pagination } from 'nextjs-pagination';
+//...
+const handlePageChange = (page: number) => {
+  setCurrentPage(page);
+};
+//...
+return (
+      <Pagination
+        totalItems={500}
+        itemsPerPage={20}
+        onPageChange={setCurrentPage}
+        color="green"
+        shape="circle"
+        buttonCount={7}
+        showNextPrev={true}
+        showFirstLast={true}
+        onSuccess={(page: any) => console.log("Current page: ", page)}
+        onError={(error: any) => console.error(error)}
+      />
+);
+```
+
+### JavaScript Example
 
 ```jsx
-<Pagination
-  totalItems={500}
-  itemsPerPage={20}
-  color="green"
-  shape="circle"
-  buttonCount={7}
-  showNextPrev={true}
-  showFirstLast={true}
-  onSuccess={(page) => console.log("Current page: ", page)}
-  onError={(error) => console.error("Page change error: ", error)}
-/>
+import Pagination from 'nextjs-pagination';
+//...
+const handlePageChange = (page) => {
+  setCurrentPage(page);
+};
+//...
+return (
+  <Pagination
+    totalItems={500}
+    itemsPerPage={20}
+    onPageChange={setCurrentPage}
+    color="green"
+    shape="circle"
+    buttonCount={7}
+    showNextPrev={true}
+    showFirstLast={true}
+    onSuccess={(page) => console.log("Current page: ", page)}
+    onError={(error) => console.error(error)}
+  />
+);
 ```
 
 ## Contributing
 
-We welcome contributions! Whether it's a bug report, feature request or a code contribution, we greatly appreciate all help to improve Nextjs-Pagination. For major changes, please open an issue first to discuss what you would like to change.
+We welcome contributions! Whether it's a bug report, feature request, or a code contribution, we greatly appreciate all help to improve Nextjs-Pagination. For major changes, please open an issue first to discuss what you would like to change.
 
 ## License
 
 Nextjs-Pagination is [MIT licensed](./LICENSE).
-

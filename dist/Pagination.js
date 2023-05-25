@@ -43,6 +43,8 @@ var Pagination = function Pagination(_ref2) {
     showNextPrev = _ref2$showNextPrev === void 0 ? false : _ref2$showNextPrev,
     _ref2$showFirstLast = _ref2.showFirstLast,
     showFirstLast = _ref2$showFirstLast === void 0 ? false : _ref2$showFirstLast,
+    _ref2$onPageChange = _ref2.onPageChange,
+    onPageChange = _ref2$onPageChange === void 0 ? function () {} : _ref2$onPageChange,
     _ref2$onSuccess = _ref2.onSuccess,
     onSuccess = _ref2$onSuccess === void 0 ? function () {} : _ref2$onSuccess,
     _ref2$onError = _ref2.onError,
@@ -81,21 +83,14 @@ var Pagination = function Pagination(_ref2) {
     cursor: 'pointer'
   }, customStyles);
   var handlePageChange = (0, _react.useCallback)(function (page) {
-    try {
-      if (page >= 1 && page <= totalPages) {
-        setCurrentPage(page);
-        onSuccess(page);
-      } else {
-        throw new Error('Page number is out of range');
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        onError === null || onError === void 0 ? void 0 : onError(error);
-      } else {
-        console.error('Caught something that was not an Error', error);
-      }
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+      onPageChange(page);
+      onSuccess(page);
+    } else {
+      onError(new Error('Page number is out of range'));
     }
-  }, [totalPages, onSuccess, onError]);
+  }, [totalPages, onPageChange, onSuccess, onError]);
   return /*#__PURE__*/_react["default"].createElement("div", null, showFirstLast && /*#__PURE__*/_react["default"].createElement(Button, {
     style: buttonStyle,
     onClick: function onClick() {

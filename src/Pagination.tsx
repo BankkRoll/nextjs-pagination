@@ -8,6 +8,7 @@ type PaginationProps = {
   buttonCount?: number;
   showNextPrev?: boolean;
   showFirstLast?: boolean;
+  onPageChange?: (page: number) => void;
   onSuccess?: (page: number) => void;
   onError?: (error: Error) => void;
   customStyles?: React.CSSProperties;
@@ -32,6 +33,7 @@ const Pagination: React.FC<PaginationProps> = ({
   buttonCount = 5,
   showNextPrev = false,
   showFirstLast = false,
+  onPageChange = () => {},
   onSuccess = () => {},
   onError = () => {},
   customStyles = {},
@@ -70,22 +72,15 @@ const Pagination: React.FC<PaginationProps> = ({
 
   const handlePageChange = useCallback(
     (page: number) => {
-      try {
-        if (page >= 1 && page <= totalPages) {
-          setCurrentPage(page);
-          onSuccess(page);
-        } else {
-          throw new Error('Page number is out of range');
-        }
-      } catch (error) {
-        if (error instanceof Error) {
-          onError?.(error);
-        } else {
-          console.error('Caught something that was not an Error', error);
-        }
+      if (page >= 1 && page <= totalPages) {
+        setCurrentPage(page);
+        onPageChange(page);
+        onSuccess(page);
+      } else {
+        onError(new Error('Page number is out of range'));
       }
     },
-    [totalPages, onSuccess, onError]
+    [totalPages, onPageChange, onSuccess, onError]
   );
 
   return (
@@ -119,8 +114,7 @@ const Pagination: React.FC<PaginationProps> = ({
         </Button>
       ))}
       {showNextPrev && (
-        <Button
-          style={buttonStyle}
+        <Button style={buttonStyle}
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
         >
