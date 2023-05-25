@@ -1,6 +1,7 @@
 # Nextjs-Pagination
 
 Nextjs-Pagination is a powerful, customizable, and easy-to-use pagination component built specifically for Next.js projects. Designed with user experience in mind, it provides flexible configuration options so you can adjust the pagination behavior and look-and-feel to suit your needs. Nextjs-Pagination is built with TypeScript, offering type safety and autocompletion support in supported editors.
+![Screenshot 2023-05-25 175609](https://github.com/BankkRoll/nextjs-pagination/assets/106103625/5fbb44cb-b1dc-4335-8194-cb9ce4aaaab5)
 
 ## Features
 
@@ -90,6 +91,9 @@ onError | Callback function called when an error occurs | function | () => {} | 
 
 
 ## Examples
+Want to see it in action? [CLICK HERE!](https://npm-i-nextjs-pagination.bankkroll.repl.co/) to check our the example on replit.
+
+(please give it a few seconds to start up the server when you load)
 
 ### TypeScript Example
 
