@@ -12,6 +12,10 @@ type PaginationProps = {
   onSuccess?: (page: number) => void;
   onError?: (error: Error) => void;
   customStyles?: React.CSSProperties;
+  firstText?: React.ReactNode;
+  prevText?: React.ReactNode;
+  nextText?: React.ReactNode;
+  lastText?: React.ReactNode;
 };
 
 const Button: React.FC<{
@@ -37,7 +41,12 @@ const Pagination: React.FC<PaginationProps> = ({
   onSuccess = () => {},
   onError = () => {},
   customStyles = {},
+  firstText = 'First',
+  prevText = 'Prev',
+  nextText = 'Next',
+  lastText = 'Last',
 }) => {
+
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const [buttonNumbers, setButtonNumbers] = useState<number[]>([]);
@@ -91,7 +100,7 @@ const Pagination: React.FC<PaginationProps> = ({
           onClick={() => handlePageChange(1)}
           disabled={currentPage === 1}
         >
-          First
+          {firstText}
         </Button>
       )}
       {showNextPrev && (
@@ -100,7 +109,7 @@ const Pagination: React.FC<PaginationProps> = ({
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
         >
-          Prev
+          {prevText}
         </Button>
       )}
       {buttonNumbers.map((number) => (
@@ -114,11 +123,12 @@ const Pagination: React.FC<PaginationProps> = ({
         </Button>
       ))}
       {showNextPrev && (
-        <Button style={buttonStyle}
+        <Button
+          style={buttonStyle}
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
         >
-          Next
+          {nextText}
         </Button>
       )}
       {showFirstLast && (
@@ -127,7 +137,7 @@ const Pagination: React.FC<PaginationProps> = ({
           onClick={() => handlePageChange(totalPages)}
           disabled={currentPage === totalPages}
         >
-          Last
+          {lastText}
         </Button>
       )}
     </div>

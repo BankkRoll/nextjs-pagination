@@ -10,6 +10,11 @@ Nextjs-Pagination is a powerful, customizable, and easy-to-use pagination compon
 - Option to show or hide 'Next' and 'Prev' buttons
 - Option to show or hide 'First' and 'Last' buttons
 - Callback function for page changes
+- Customizable text for 'First', 'Prev', 'Next', 'Last' buttons. You can use text, emojis, symbols, or anything that is a valid React node. Here are some examples:
+  - Text: 'First', 'Prev', 'Next', 'Last'
+  - Emojis: '⏮', '⏪', '⏩', '⏭'
+  - Symbols: '⇤', '←', '→', '⇥'
+  - Special Symbols: '⟪', '⟨', '⟩', '⟫'
 
 ## Installation
 
@@ -29,30 +34,46 @@ npm install nextjs-pagination
 
 ## Usage
 
-First, import the Pagination component from the `nextjs-pagination` package then use it in your components:
+First, import the Pagination component from the `nextjs-pagination` package then use it in your components. Below are the 3 required props needed for JavaScript and TypeScript components:
 
 ### TypeScript
 
 ```tsx
 import { Pagination } from 'nextjs-pagination';
-//...
-<Pagination
-    onPageChange={setCurrentPage}
-    totalItems={100}
-    itemsPerPage={10}
-/>
+
+const TSExample = () => {
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  return (
+    <Pagination
+      onPageChange={handlePageChange}
+      totalItems={100}
+      itemsPerPage={10}
+    />
+  );
+};
 ```
 
 ### JavaScript
 
 ```jsx
 import Pagination from 'nextjs-pagination';
-//...
-<Pagination
-    onPageChange={setCurrentPage}
-    totalItems={100}
-    itemsPerPage={10}
-/>
+
+const JSExample = () => {
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  return (
+    <Pagination
+      onPageChange={handlePageChange}
+      totalItems={100}
+      itemsPerPage={10}
+    />
+  );
+};
 ```
 
 This will render a pagination component for 100 items with 10 items per page.
@@ -73,6 +94,10 @@ showNextPrev | Whether to show 'Next' and 'Prev' buttons | boolean | false | No
 showFirstLast | Whether to show 'First' and 'Last' buttons | boolean | false | No
 onSuccess | Callback function called when a valid page is selected | function | () => {} | No
 onError | Callback function called when an error occurs | function | () => {} | No
+firstText | Text for the 'First' button. Can be any valid React node, such as text, emojis, symbols, etc. | React.ReactNode | 'First' | No
+lastText | Text for the 'Last' button. Can be any valid React node, such as text, emojis, symbols, etc. | React.ReactNode | 'Last' | No
+prevText | Text for the 'Prev' button. Can be any valid React node, such as text, emojis, symbols, etc. | React.ReactNode | 'Prev' | No
+nextText | Text for the 'Next' button. Can be any valid React node, such as text, emojis, symbols, etc. | React.ReactNode | 'Next' | No
 
 ## File Structure
 
@@ -99,50 +124,63 @@ Want to see it in action? [CLICK HERE!](https://npm-i-nextjs-pagination.bankkrol
 
 ```tsx
 import { Pagination } from 'nextjs-pagination';
-//...
-const handlePageChange = (page: number) => {
-  setCurrentPage(page);
+
+const ExamplePage: React.FC = () => {
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  return (
+    <Pagination
+      totalItems={500}
+      itemsPerPage={20}
+      onPageChange={handlePageChange}
+      color="green"
+      shape="circle"
+      buttonCount={7}
+      showNextPrev={true}
+      showFirstLast={true}
+      onSuccess={(page: number) => console.log("Current page: ", page)}
+      onError={(error: Error) => console.error(error)}
+      firstText="First"
+      lastText="Last"
+      prevText="Prev"
+      nextText="Next"
+    />
+  );
 };
-//...
-return (
-      <Pagination
-        totalItems={500}
-        itemsPerPage={20}
-        onPageChange={setCurrentPage}
-        color="green"
-        shape="circle"
-        buttonCount={7}
-        showNextPrev={true}
-        showFirstLast={true}
-        onSuccess={(page: any) => console.log("Current page: ", page)}
-        onError={(error: any) => console.error(error)}
-      />
-);
 ```
 
 ### JavaScript Example
 
 ```jsx
 import Pagination from 'nextjs-pagination';
-//...
-const handlePageChange = (page) => {
-  setCurrentPage(page);
+
+const ExamplePage = () => {
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  return (
+    <Pagination
+      totalItems={500}
+      itemsPerPage={20}
+      onPageChange={handlePageChange}
+      color="green"
+      shape="circle"
+      buttonCount={7}
+      showNextPrev={true}
+      showFirstLast={true}
+      onSuccess={(page) => console.log("Current page: ", page)}
+      onError={(error) => console.error(error)}
+      firstText="First"
+      lastText="Last"
+      prevText="Prev"
+      nextText="Next"
+    />
+  );
 };
-//...
-return (
-  <Pagination
-    totalItems={500}
-    itemsPerPage={20}
-    onPageChange={setCurrentPage}
-    color="green"
-    shape="circle"
-    buttonCount={7}
-    showNextPrev={true}
-    showFirstLast={true}
-    onSuccess={(page) => console.log("Current page: ", page)}
-    onError={(error) => console.error(error)}
-  />
-);
+
 ```
 
 ## Contributing

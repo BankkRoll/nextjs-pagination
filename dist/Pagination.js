@@ -50,7 +50,15 @@ var Pagination = function Pagination(_ref2) {
     _ref2$onError = _ref2.onError,
     onError = _ref2$onError === void 0 ? function () {} : _ref2$onError,
     _ref2$customStyles = _ref2.customStyles,
-    customStyles = _ref2$customStyles === void 0 ? {} : _ref2$customStyles;
+    customStyles = _ref2$customStyles === void 0 ? {} : _ref2$customStyles,
+    _ref2$firstText = _ref2.firstText,
+    firstText = _ref2$firstText === void 0 ? 'First' : _ref2$firstText,
+    _ref2$prevText = _ref2.prevText,
+    prevText = _ref2$prevText === void 0 ? 'Prev' : _ref2$prevText,
+    _ref2$nextText = _ref2.nextText,
+    nextText = _ref2$nextText === void 0 ? 'Next' : _ref2$nextText,
+    _ref2$lastText = _ref2.lastText,
+    lastText = _ref2$lastText === void 0 ? 'Last' : _ref2$lastText;
   var _useState = (0, _react.useState)(1),
     _useState2 = _slicedToArray(_useState, 2),
     currentPage = _useState2[0],
@@ -97,13 +105,13 @@ var Pagination = function Pagination(_ref2) {
       return handlePageChange(1);
     },
     disabled: currentPage === 1
-  }, "First"), showNextPrev && /*#__PURE__*/_react["default"].createElement(Button, {
+  }, firstText), showNextPrev && /*#__PURE__*/_react["default"].createElement(Button, {
     style: buttonStyle,
     onClick: function onClick() {
       return handlePageChange(currentPage - 1);
     },
     disabled: currentPage === 1
-  }, "Prev"), buttonNumbers.map(function (number) {
+  }, prevText), buttonNumbers.map(function (number) {
     return /*#__PURE__*/_react["default"].createElement(Button, {
       key: number,
       style: buttonStyle,
@@ -118,13 +126,13 @@ var Pagination = function Pagination(_ref2) {
       return handlePageChange(currentPage + 1);
     },
     disabled: currentPage === totalPages
-  }, "Next"), showFirstLast && /*#__PURE__*/_react["default"].createElement(Button, {
+  }, nextText), showFirstLast && /*#__PURE__*/_react["default"].createElement(Button, {
     style: buttonStyle,
     onClick: function onClick() {
       return handlePageChange(totalPages);
     },
     disabled: currentPage === totalPages
-  }, "Last"));
+  }, lastText));
 };
 var _default = Pagination;
 exports["default"] = _default;
