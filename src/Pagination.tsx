@@ -16,6 +16,7 @@ type PaginationProps = {
   prevText?: React.ReactNode;
   nextText?: React.ReactNode;
   lastText?: React.ReactNode;
+  className?: string;
 };
 
 const Button: React.FC<{
@@ -45,6 +46,7 @@ const Pagination: React.FC<PaginationProps> = ({
   prevText = 'Prev',
   nextText = 'Next',
   lastText = 'Last',
+  className = '',
 }) => {
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -93,7 +95,7 @@ const Pagination: React.FC<PaginationProps> = ({
   );
 
   return (
-    <div>
+    <div className={className}>
       {showFirstLast && (
         <Button
           style={buttonStyle}
