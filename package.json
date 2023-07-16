@@ -1,13 +1,15 @@
 {
   "name": "nextjs-pagination",
-  "version": "2.6.0",
-  "description": "A customizable pagination component for Next.js",
+  "version": "3.0.0",
+  "description": "A highly customizable pagination component for Next.js applications. It provides flexible configuration options for page navigation and improves user experience in large scale data environments.",
   "main": "dist/index.js",
   "types": "./@types/nextjs-pagination.d.ts",
   "scripts": {
     "build": "babel src --out-dir dist --extensions \".js,.jsx,.ts,.tsx\"",
     "prepublishOnly": "npm run build",
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "format": "prettier --write \"src/**/*.+(js|jsx|ts|tsx)\""
   },
   "repository": {
     "type": "git",
@@ -48,6 +50,7 @@
     "@babel/preset-react": "^7.14.5",
     "@babel/preset-typescript": "^7.14.5",
     "@types/react": "^18.2.7",
+    "prettier": "^3.0.0",
     "typescript": "^4.3.5"
   },
   "peerDependencies": {

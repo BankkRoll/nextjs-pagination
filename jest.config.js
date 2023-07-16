@@ -1,5 +1,13 @@
 module.exports = {
-    preset: 'ts-jest',
-    testEnvironment: 'node',
-  };
-  
+  presets: [
+    [
+      '@babel/preset-env',
+      {
+        targets: {
+          node: 'current',
+        },
+      },
+    ],
+    '@babel/preset-typescript',
+  ],
+};

@@ -19,32 +19,45 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+// Constants for default values
+var DEFAULT_COLOR = "#007bff";
+var DEFAULT_SHAPE = "square";
+var DEFAULT_BUTTON_COUNT = 5;
+var DEFAULT_FIRST_TEXT = "First";
+var DEFAULT_PREV_TEXT = "Prev";
+var DEFAULT_NEXT_TEXT = "Next";
+var DEFAULT_LAST_TEXT = "Last";
+// Button component used for all the buttons in the pagination component
 var Button = /*#__PURE__*/_react["default"].memo(function (_ref) {
   var style = _ref.style,
     onClick = _ref.onClick,
     disabled = _ref.disabled,
+    className = _ref.className,
     children = _ref.children;
   return /*#__PURE__*/_react["default"].createElement("button", {
     style: style,
     onClick: onClick,
-    disabled: disabled
+    disabled: disabled,
+    className: className
   }, children);
 });
+
+// Pagination component
 var Pagination = function Pagination(_ref2) {
   var totalItems = _ref2.totalItems,
     itemsPerPage = _ref2.itemsPerPage,
+    _ref2$onPageChange = _ref2.onPageChange,
+    onPageChange = _ref2$onPageChange === void 0 ? function () {} : _ref2$onPageChange,
     _ref2$color = _ref2.color,
-    color = _ref2$color === void 0 ? '#007bff' : _ref2$color,
+    color = _ref2$color === void 0 ? DEFAULT_COLOR : _ref2$color,
     _ref2$shape = _ref2.shape,
-    shape = _ref2$shape === void 0 ? 'square' : _ref2$shape,
-    _ref2$buttonCount = _ref2.buttonCount,
-    buttonCount = _ref2$buttonCount === void 0 ? 5 : _ref2$buttonCount,
+    shape = _ref2$shape === void 0 ? DEFAULT_SHAPE : _ref2$shape,
+    _ref2$visibleButtonCo = _ref2.visibleButtonCount,
+    visibleButtonCount = _ref2$visibleButtonCo === void 0 ? DEFAULT_BUTTON_COUNT : _ref2$visibleButtonCo,
     _ref2$showNextPrev = _ref2.showNextPrev,
     showNextPrev = _ref2$showNextPrev === void 0 ? false : _ref2$showNextPrev,
     _ref2$showFirstLast = _ref2.showFirstLast,
     showFirstLast = _ref2$showFirstLast === void 0 ? false : _ref2$showFirstLast,
-    _ref2$onPageChange = _ref2.onPageChange,
-    onPageChange = _ref2$onPageChange === void 0 ? function () {} : _ref2$onPageChange,
     _ref2$onSuccess = _ref2.onSuccess,
     onSuccess = _ref2$onSuccess === void 0 ? function () {} : _ref2$onSuccess,
     _ref2$onError = _ref2.onError,
@@ -52,87 +65,112 @@ var Pagination = function Pagination(_ref2) {
     _ref2$customStyles = _ref2.customStyles,
     customStyles = _ref2$customStyles === void 0 ? {} : _ref2$customStyles,
     _ref2$firstText = _ref2.firstText,
-    firstText = _ref2$firstText === void 0 ? 'First' : _ref2$firstText,
+    firstText = _ref2$firstText === void 0 ? DEFAULT_FIRST_TEXT : _ref2$firstText,
     _ref2$prevText = _ref2.prevText,
-    prevText = _ref2$prevText === void 0 ? 'Prev' : _ref2$prevText,
+    prevText = _ref2$prevText === void 0 ? DEFAULT_PREV_TEXT : _ref2$prevText,
     _ref2$nextText = _ref2.nextText,
-    nextText = _ref2$nextText === void 0 ? 'Next' : _ref2$nextText,
+    nextText = _ref2$nextText === void 0 ? DEFAULT_NEXT_TEXT : _ref2$nextText,
     _ref2$lastText = _ref2.lastText,
-    lastText = _ref2$lastText === void 0 ? 'Last' : _ref2$lastText;
+    lastText = _ref2$lastText === void 0 ? DEFAULT_LAST_TEXT : _ref2$lastText,
+    _ref2$className = _ref2.className,
+    className = _ref2$className === void 0 ? "" : _ref2$className,
+    _ref2$buttonClassName = _ref2.buttonClassName,
+    buttonClassName = _ref2$buttonClassName === void 0 ? "" : _ref2$buttonClassName;
   var _useState = (0, _react.useState)(1),
     _useState2 = _slicedToArray(_useState, 2),
     currentPage = _useState2[0],
     setCurrentPage = _useState2[1];
-  var totalPages = Math.ceil(totalItems / itemsPerPage);
   var _useState3 = (0, _react.useState)([]),
     _useState4 = _slicedToArray(_useState3, 2),
     buttonNumbers = _useState4[0],
     setButtonNumbers = _useState4[1];
+
+  // Calculate total number of pages
+  var totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  // Calculate the button numbers to display
   (0, _react.useEffect)(function () {
-    var startPage = Math.max(1, currentPage - Math.floor(buttonCount / 2));
-    var endPage = startPage + buttonCount - 1;
+    // Calculate start and end page numbers
+    var startPage = Math.max(1, currentPage - Math.floor(visibleButtonCount / 2));
+    var endPage = startPage + visibleButtonCount - 1;
+    // Adjust start and end page if they go beyond the total number of pages
     if (endPage > totalPages) {
       endPage = totalPages;
-      startPage = Math.max(1, endPage - buttonCount + 1);
+      startPage = Math.max(1, endPage - visibleButtonCount + 1);
     }
-    var newButtonNumbers = [];
-    for (var i = startPage; i <= endPage; i++) {
-      newButtonNumbers.push(i);
-    }
+    // Generate button numbers
+    var newButtonNumbers = Array.from({
+      length: endPage - startPage + 1
+    }, function (_, i) {
+      return startPage + i;
+    });
     setButtonNumbers(newButtonNumbers);
-  }, [currentPage, totalPages, buttonCount]);
+  }, [currentPage, totalPages, visibleButtonCount]);
+
+  // Style for the buttons
   var buttonStyle = _objectSpread({
-    color: 'white',
+    color: "white",
     backgroundColor: color,
-    borderRadius: shape === 'circle' ? '50%' : '0',
-    padding: '0.5rem 1rem',
-    margin: '0 0.2rem',
-    border: 'none',
-    cursor: 'pointer'
+    borderRadius: shape === "circle" ? "50%" : "0",
+    padding: "0.5rem 1rem",
+    margin: "0 0.2rem",
+    border: "none",
+    cursor: "pointer"
   }, customStyles);
+
+  // Callback function to handle page changes
   var handlePageChange = (0, _react.useCallback)(function (page) {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
       onPageChange(page);
       onSuccess(page);
     } else {
-      onError(new Error('Page number is out of range'));
+      onError(new Error("Page number is out of range"));
     }
   }, [totalPages, onPageChange, onSuccess, onError]);
-  return /*#__PURE__*/_react["default"].createElement("div", null, showFirstLast && /*#__PURE__*/_react["default"].createElement(Button, {
+
+  // Render the pagination component
+  return /*#__PURE__*/_react["default"].createElement("div", {
+    className: className
+  }, showFirstLast ? /*#__PURE__*/_react["default"].createElement(Button, {
     style: buttonStyle,
     onClick: function onClick() {
       return handlePageChange(1);
     },
-    disabled: currentPage === 1
-  }, firstText), showNextPrev && /*#__PURE__*/_react["default"].createElement(Button, {
+    disabled: currentPage === 1,
+    className: buttonClassName
+  }, firstText) : null, showNextPrev ? /*#__PURE__*/_react["default"].createElement(Button, {
     style: buttonStyle,
     onClick: function onClick() {
       return handlePageChange(currentPage - 1);
     },
-    disabled: currentPage === 1
-  }, prevText), buttonNumbers.map(function (number) {
+    disabled: currentPage === 1,
+    className: buttonClassName
+  }, prevText) : null, buttonNumbers.map(function (number) {
     return /*#__PURE__*/_react["default"].createElement(Button, {
       key: number,
       style: buttonStyle,
       onClick: function onClick() {
         return handlePageChange(number);
       },
-      disabled: false
+      disabled: false,
+      className: buttonClassName
     }, number);
-  }), showNextPrev && /*#__PURE__*/_react["default"].createElement(Button, {
+  }), showNextPrev ? /*#__PURE__*/_react["default"].createElement(Button, {
     style: buttonStyle,
     onClick: function onClick() {
       return handlePageChange(currentPage + 1);
     },
-    disabled: currentPage === totalPages
-  }, nextText), showFirstLast && /*#__PURE__*/_react["default"].createElement(Button, {
+    disabled: currentPage === totalPages,
+    className: buttonClassName
+  }, nextText) : null, showFirstLast ? /*#__PURE__*/_react["default"].createElement(Button, {
     style: buttonStyle,
     onClick: function onClick() {
       return handlePageChange(totalPages);
     },
-    disabled: currentPage === totalPages
-  }, lastText));
+    disabled: currentPage === totalPages,
+    className: buttonClassName
+  }, lastText) : null);
 };
 var _default = Pagination;
 exports["default"] = _default;
